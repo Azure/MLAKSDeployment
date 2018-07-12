@@ -1,0 +1,12 @@
+name: MLAKSDeployment
+dependencies:
+  - python=3.5
+  - pip:
+    - ipykernel
+    - matplotlib
+    - aiohttp
+    - toolz
+    - tqdm
+    - tornado<5
+    - azure-cli
+    - sklearn
