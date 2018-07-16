@@ -23,12 +23,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Fit and evaluate a model'
                                      ' based on train-test datasets.')
     parser.add_argument('-d', '--data', help='the training dataset name',
-                        default='pairs_train.tsv')
+                        default='balanced_pairs_train.tsv')
     parser.add_argument('-t', '--test', help='the test dataset name',
-                        default='pairs_test.tsv')
-    parser.add_argument('-i', '--iterations',
-                        help='the number of learner iterations',
-                        type=int, default=100)
+                        default='balanced_pairs_test.tsv')
+    parser.add_argument('-i', '--estimators',
+                        help='the number of learner estimators',
+                        type=int, default=4000)
     parser.add_argument('-n', '--ngrams',
                         help='the maximum size of word ngrams',
                         type=int, default=1)
@@ -51,9 +51,9 @@ if __name__ == '__main__':
                         help='the maximum number of duplicate matches',
                         type=int, default=20)
     parser.add_argument('--outputs', help='the outputs directory',
-                        default='outputs')
+                        default='.')
     parser.add_argument('--inputs', help='the inputs directory',
-                        default='inputs')
+                        default='.')
     parser.add_argument('-s', '--save', help='save the model',
                         action='store_true')
     parser.add_argument('--model', help='the model file', default='model.pkl')
@@ -125,7 +125,7 @@ if __name__ == '__main__':
     names = train[name_columns]
 
     # Select the training hyperparameters.
-    n_estimators = args.iterations
+    n_estimators = args.estimators
     min_child_samples = args.min_child_samples
     estimator = lgb.LGBMClassifier(n_estimators=n_estimators,
                                    min_child_samples=min_child_samples,
@@ -153,7 +153,7 @@ if __name__ == '__main__':
     # Fit the model.
     elapsed(model.fit)(train_X, train_y, model__sample_weight=sample_weight)
 
-    # Write the model to file.
+    # write the model to file.
     if args.save:
         joblib.dump(model, model_path)
 
@@ -174,34 +174,32 @@ if __name__ == '__main__':
     probabilities = (
         test.probabilities
         .groupby(test[group_column], sort=False)
-        .apply(lambda x: x.values.tolist()))
+        .apply(lambda x: tuple(x.values)))
 
     # Get the individual records.
     output_columns_x = ['Id_x', 'AnswerId_x', 'Text_x']
-    test = (test[output_columns_x]
-            .drop_duplicates()
-            .set_index(group_column))
-    test['probabilities'] = probabilities
-    test.reset_index(inplace=True)
-    test.columns = ['Id', 'AnswerId', 'Text', 'probabilities']
+    test_score = (test[output_columns_x]
+                  .drop_duplicates()
+                  .set_index(group_column))
+    test_score['probabilities'] = probabilities
+    test_score.reset_index(inplace=True)
+    test_score.columns = ['Id', 'AnswerId', 'Text', 'probabilities']
 
     # Rank the correct answers.
-    test['Ranks'] = test.apply(lambda x:
-                               label_rank(x.AnswerId,
-                                          x.probabilities,
-                                          label_order.label),
-                               axis=1)
+    test_score['Ranks'] = test_score.apply(lambda x:
+                                           label_rank(x.AnswerId,
+                                                      x.probabilities,
+                                                      label_order.label),
+                                           axis=1)
 
     # Compute the number of correctly ranked answers
-    acc = (test['Ranks'] <= args.rank).mean()
-    mean_rank = test['Ranks'].mean()
-
     for i in range(1, args.rank+1):
         print('Accuracy @{} = {:.2%}'.format(
-            i, (test['Ranks'] <= i).mean()))
+            i, (test_score['Ranks'] <= i).mean()))
+    mean_rank = test_score['Ranks'].mean()
     print('Mean Rank {:.4f}'.format(mean_rank))
 
     # Write the scored instances.
-    test.to_csv(instances_path, sep='\t', index=False,
-                encoding='latin1')
+    test_score.to_csv(instances_path, sep='\t', index=False,
+                      encoding='latin1')
     label_order.to_csv(labels_path, sep='\t', index=False)
