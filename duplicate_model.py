@@ -30,7 +30,7 @@ class DuplicateModel(object):
         test_X = test[self.feature_cols]
 
         # Score the text.
-        test[self.probabilities_col] = self.self.predict_proba(
+        test[self.probabilities_col] = self.model.predict_proba(
             test_X)[:, 1]
 
         # Order the data by descending probability.
