@@ -7,7 +7,7 @@ from sklearn.externals import joblib
 
 class DuplicateModel(object):
 
-    questions_cols = ['Id', 'Text']
+    questions_cols = ['Id', 'AnswerId', 'Text']
     dup_col = 'Text_x'
     id_col = 'Id_y'
     answerId_col = 'AnswerId_y'
@@ -22,7 +22,8 @@ class DuplicateModel(object):
         self.questions = pd.read_csv(questions_path, sep='\t',
                                      encoding='latin1')
         self.questions = self.questions[self.questions_cols]
-        self.questions.columns = [self.id_col, self.orig_col]
+        self.questions.columns = [
+            self.id_col, self.answerId_col, self.orig_col]
 
     def score(self, Text):
         # Create a scoring dataframe.
