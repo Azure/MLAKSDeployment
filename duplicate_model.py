@@ -10,6 +10,7 @@ class DuplicateModel(object):
     questions_cols = ['Id', 'Text']
     dup_col = 'Text_x'
     id_col = 'Id_y'
+    answerId_col = 'AnswerId_y'
     orig_col = 'Text_y'
     feature_cols = [dup_col, orig_col]
     probabilities_col = 'probabilities'
@@ -30,15 +31,15 @@ class DuplicateModel(object):
         test_X = test[self.feature_cols]
 
         # Score the text.
-        test[self.probabilities_col] = self.self.predict_proba(
+        test[self.probabilities_col] = self.model.predict_proba(
             test_X)[:, 1]
 
         # Order the data by descending probability.
         test.sort_values(by=self.probabilities_col, ascending=False,
                          inplace=True)
 
-        # Extract the original question ids and probabilities.
-        scores = test[[self.id_col, self.probabilities_col]]
+        # Extract the original question ids, answer ids, and probabilities.
+        scores = test[[self.id_col, self.answerId_col, self.probabilities_col]]
         pairs = [x[1:] for x in scores.itertuples()]
 
         # Return the result.
