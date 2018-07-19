@@ -156,6 +156,8 @@ if __name__ == '__main__':
     # write the model to file.
     if args.save:
         joblib.dump(model, model_path)
+        print('{}: {.0f} MB'.format(
+            model_path, os.path.getsize(model_path)/(2**20)))
 
     # Read the test data.
     print('Reading {}'.format(test_path))
