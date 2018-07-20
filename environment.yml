@@ -3,10 +3,10 @@ channels:
   - conda-forge
 dependencies:
   - python=3.5
+  - nb_conda
   - ipywidgets==7.3.0
   - tornado==4.5.3
   - pip:
-    - ipykernel==4.8.2
     - pandas==0.23.3
     - matplotlib==2.2.2
     - aiohttp==3.3.2
