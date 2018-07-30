@@ -147,7 +147,7 @@ if __name__ == '__main__':
     # The model pipeline.
     model = Pipeline([
         ('features', features),
-        ('model', lgb.LGBMClassifier(n_estimators=n_estimators))
+        ('model', estimator)
     ])
 
     # Fit the model.
@@ -156,7 +156,7 @@ if __name__ == '__main__':
     # write the model to file.
     if args.save:
         joblib.dump(model, model_path)
-        print('{}: {.0f} MB'.format(
+        print('{}: {:.2f} MB'.format(
             model_path, os.path.getsize(model_path)/(2**20)))
 
     # Read the test data.

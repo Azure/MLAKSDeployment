@@ -28,7 +28,7 @@ if __name__ == '__main__':
                         type=int, default=12)
     parser.add_argument('--max_dupes',
                         help='the maximum number of dupes per question',
-                        type=int, default=12)
+                        type=int, default=0)
     parser.add_argument('-m', '--match',
                         help='the maximum number of duplicate matches',
                         type=int, default=40)
@@ -116,7 +116,9 @@ if __name__ == '__main__':
 
     # Limit the dupes to a maximum number per label choosing at random
     # what to keep.
-    dupes = dupes.groupby(label_column).apply(max_sample, max=args.max_dupes)
+    if args.max_dupes >= args.min_dupes:
+        dupes = dupes.groupby(label_column).apply(max_sample,
+                                                  max=args.max_dupes)
 
     # Verify data integrity.
     assert questions[label_column].isin(dupes[label_column]).all()

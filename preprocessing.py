@@ -16,11 +16,9 @@ def read_csv_gz(url, **kwargs):
 
 def clean_text(text):
     """Remove embedded code chunks, links/URLs, and HTML tags."""
-
     if not isinstance(text, str):
         return text
-    text = re.sub('<pre>.*?</pre>', '', text)
-    text = re.sub('<code>.*?</code>', '', text)
+    text = re.sub('<pre><code>.*?</code></pre>', '', text)
     text = re.sub('<a[^>]+>(.*)</a>', replace_link, text)
     return re.sub('<[^>]+>', '', text)
 

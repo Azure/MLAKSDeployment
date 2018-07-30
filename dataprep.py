@@ -15,7 +15,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Prepare datasets.')
     parser.add_argument('-t', '--test_size',
                         help='the size of the test set',
-                        type=float, default=0.2)
+                        type=float, default=0.21)
     parser.add_argument('-m', '--match',
                         help='the maximum number of duplicate matches',
                         type=int, default=40)
@@ -24,7 +24,7 @@ if __name__ == '__main__':
                         type=int, default=150)
     parser.add_argument('--min_dupes',
                         help='the minimum number of dupes per question',
-                        type=int, default=1)
+                        type=int, default=12)
     parser.add_argument('--outputs', help='the outputs directory',
                         default='outputs')
     args = parser.parse_args()
@@ -120,7 +120,7 @@ if __name__ == '__main__':
     assert dupes[label_column].isin(questions[label_column]).all()
 
     # Report on the data.
-    print('Restrictions: min_text={}, min_dupes={}'.format(
+    print('\nRestrictions: min_text={}, min_dupes={}'.format(
         args.min_text, args.min_dupes))
     print('Restricted text statistics:')
     print(pd.DataFrame([questions.Text.str.len().describe()
