@@ -1,0 +1,46 @@
+
+FROM ubuntu:16.04
+
+USER root
+RUN mkdir /code
+WORKDIR /code
+RUN chmod -R a+w /code
+ADD . /code/
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        ca-certificates \
+        cmake \
+        wget \
+        curl \
+        git \
+        supervisor \
+        nginx && \
+    rm -rf /var/lib/apt/lists/* &&\
+    rm /etc/nginx/sites-enabled/default && \
+    cp /code/nginx/app /etc/nginx/sites-available/ && \
+    ln -s /etc/nginx/sites-available/app /etc/nginx/sites-enabled/ 
+
+ENV PYTHON_VERSION=3.5
+RUN curl -o ~/miniconda.sh -O  https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh  && \
+    chmod +x ~/miniconda.sh && \
+    ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh && \
+    /opt/conda/bin/conda create -y --name py$PYTHON_VERSION python=$PYTHON_VERSION numpy pyyaml scipy \
+    ipython jupyter ipykernel && \
+    /opt/conda/bin/conda clean -ya
+    
+ENV PATH /opt/conda/envs/py$PYTHON_VERSION/bin:$PATH
+ENV LD_LIBRARY_PATH /opt/conda/envs/py$PYTHON_VERSION/lib:/usr/local/cuda/lib64/:$LD_LIBRARY_PATH
+    
+RUN pip install --upgrade pip && \
+    pip install scikit-learn==0.19.1 && \
+    pip install lightgbm==2.1.2 && \
+    pip install -r /code/requirements.txt && \       
+    /opt/conda/bin/conda clean -yt
+
+EXPOSE 8888
+EXPOSE 5000
+EXPOSE 80
+
+CMD ["supervisord", "-c", "/code/etc/supervisord.conf"]
