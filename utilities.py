@@ -57,3 +57,8 @@ def random_merge(A, B, N=20, on='AnswerId', key='key', n='n'):
 
 def text_to_json(text):
     return json.dumps({'input':'{0}'.format(text)})
+
+def write_json_to_file(json_dict, filename, mode='w'):
+    with open(filename, mode) as outfile:
+        json.dump(json_dict, outfile, indent=4, sort_keys=True)
+        outfile.write('\n\n')
