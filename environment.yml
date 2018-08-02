@@ -3,7 +3,7 @@ channels:
   - conda-forge
 dependencies:
   - python=3.5
-  - nb_conda
+  - nb_conda==2.2.0
   - ipywidgets==7.3.0
   - tornado==4.5.3
   - pip:
