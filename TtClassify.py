@@ -127,14 +127,17 @@ if __name__ == '__main__':
     # Select the training hyperparameters.
     n_estimators = args.estimators
     min_child_samples = args.min_child_samples
-    estimator = lgb.LGBMClassifier(n_estimators=n_estimators,
-                                   min_child_samples=min_child_samples,
-                                   verbose=args.verbose)
     if args.ngrams > 0:
         ngram_range = (1, args.ngrams)
     else:
         ngram_range = None
+
+    # Verify that the hyperparameter values are valid.
+    assert n_estimators > 0
+    assert min_child_samples > 1
     assert ngram_range is not None
+    assert type(ngram_range) is tuple and len(ngram_range) == 2
+    assert ngram_range[0] > 0 and ngram_range[0] <= ngram_range[1]
 
     # The featurization pipeline(s) for each text column.
     featurization = [
@@ -143,6 +146,10 @@ if __name__ == '__main__':
                        text.TfidfVectorizer(ngram_range=ngram_range)))
         for column in feature_columns]
     features = FeatureUnion(featurization)
+
+    estimator = lgb.LGBMClassifier(n_estimators=n_estimators,
+                                   min_child_samples=min_child_samples,
+                                   verbose=args.verbose)
 
     # The model pipeline.
     model = Pipeline([
