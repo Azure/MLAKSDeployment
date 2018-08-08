@@ -16,3 +16,5 @@ dependencies:
     - azure-cli==2.0.41
     - scikit-learn==0.19.1
     - lightgbm==2.1.2
+    - papermill==0.14.1
+    - python-dotenv==0.9.1
