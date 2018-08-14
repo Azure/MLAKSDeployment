@@ -107,13 +107,11 @@ venv.bak/
 .dir-locals.el
 
 # Products
+*.tsv
+*.txt
+*.pkl
 az-ml.json
-balanced_pairs_test.tsv
-balanced_pairs_train.tsv
 driver.py
-dupes_test.tsv
 flaskwebapp/
 inst.txt
 labels.txt
-model.pkl
-questions.tsv
