@@ -19,7 +19,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Prepare datasets.')
     parser.add_argument('-t', '--test_size',
                         help='the size of the test set',
-                        type=float, default=0.2)
+                        type=float, default=0.21)
     parser.add_argument('--min_text',
                         help='the minimum length of clean text',
                         type=int, default=150)
@@ -31,7 +31,7 @@ if __name__ == '__main__':
                         type=int, default=0)
     parser.add_argument('-m', '--match',
                         help='the maximum number of duplicate matches',
-                        type=int, default=40)
+                        type=int, default=20)
     parser.add_argument('--outputs', help='the outputs directory',
                         default='outputs')
     args = parser.parse_args()

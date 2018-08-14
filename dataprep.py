@@ -18,7 +18,7 @@ if __name__ == '__main__':
                         type=float, default=0.21)
     parser.add_argument('-m', '--match',
                         help='the maximum number of duplicate matches',
-                        type=int, default=40)
+                        type=int, default=20)
     parser.add_argument('--min_text',
                         help='the minimum length of clean text',
                         type=int, default=150)
