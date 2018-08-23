@@ -3,7 +3,7 @@
 To set up your environment to run these notebooks, please follow these
 steps.
 
-1. Create the Python virtual environment using the environment.yml:
+1. Create the Python MLAKSDeployment virtual environment using the environment.yml:
    ```
    conda env create -f environment.yml
    ```
