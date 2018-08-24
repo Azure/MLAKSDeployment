@@ -3,6 +3,12 @@
 To set up your environment to run these notebooks, please follow these
 steps.
 
+1. Create a DSVM.
+
+2. In a ```bash``` shell on the DSVM, add your user account to the
+   docker group:
+   ```sudo usermod -a -G docker <user account>```
+
 1. Create the Python MLAKSDeployment virtual environment using the environment.yml:
    ```
    conda env create -f environment.yml
