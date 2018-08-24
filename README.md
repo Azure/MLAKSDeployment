@@ -4,7 +4,7 @@ To set up your environment to run these notebooks, please follow these
 steps.
 
 1. Create a DSVM.
-2. In a bash shell on the DSVM, add your login to the docker group:
+2. In a ```bash``` shell on the DSVM, add your login to the docker group:
    ```
    sudo usermod -a -G docker <login>
    ```
