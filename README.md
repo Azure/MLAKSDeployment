@@ -5,19 +5,20 @@ steps.
 
 1. Create a DSVM.
 
-2. In a ```bash``` shell on the DSVM, add your user account to the
-   docker group:
-   ```sudo usermod -a -G docker <user account>```
+2. In a bash shell on the DSVM, add your login to the docker group:
+   ```sudo usermod -a -G docker <login>```
+   You can check that your account has been added by using the
+   ```groups``` command.
 
-1. Create the Python MLAKSDeployment virtual environment using the environment.yml:
+3. Create the Python MLAKSDeployment virtual environment using the environment.yml:
    ```
    conda env create -f environment.yml
    ```
-2. Activate the virtual environment:
+4. Activate the virtual environment:
    ```
    source activate MLAKSDeployment
    ```
-3. Start the Jupyter notebook server in the virtual environment:
+5. Start the Jupyter notebook server in the virtual environment:
    ```
    jupyter notebook
    ```
