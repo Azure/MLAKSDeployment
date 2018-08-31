@@ -8,15 +8,19 @@ steps.
    ```
    sudo usermod -a -G docker <login>
    ```
-3. Create the Python MLAKSDeployment virtual environment using the environment.yml:
+3. Clone, fork, or download the zip file for this repository:
+   ```
+   git clone https://github.com/Azure/MLAKSDeployment.git
+   ```
+4. Create the Python MLAKSDeployment virtual environment using the environment.yml:
    ```
    conda env create -f environment.yml
    ```
-4. Activate the virtual environment:
+5. Activate the virtual environment:
    ```
    source activate MLAKSDeployment
    ```
-5. Start the Jupyter notebook server in the virtual environment:
+6. Start the Jupyter notebook server in the virtual environment:
    ```
    jupyter notebook
    ```
