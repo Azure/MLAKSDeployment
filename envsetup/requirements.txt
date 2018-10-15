@@ -1,0 +1,5 @@
+nb_conda==2.2.0
+ipywidgets==7.3.0
+tornado==4.5.3
+pandas==0.23.3
+scikit-learn==0.19.1
