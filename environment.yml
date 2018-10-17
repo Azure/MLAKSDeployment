@@ -16,4 +16,5 @@ dependencies:
     - lightgbm==2.1.2
     - papermill==0.15.1
     - ipykernel==5.0.0
+    - prompt_toolkit
     - git+https://github.com/theskumar/python-dotenv
