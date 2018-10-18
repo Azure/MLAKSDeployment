@@ -1,26 +1,38 @@
 # Setup
 
 To set up your environment to run these notebooks, please follow these
-steps.
+steps.  They setup the notebooks to use Docker and Azure seamlessly.
 
 1. Create a _Linux_ DSVM.
 2. In a bash shell on the DSVM, add your login to the `docker` group:
    ```
    sudo usermod -a -G docker <login>
    ```
-3. Clone, fork, or download the zip file for this repository:
+3. Login to your DockerHub account:
+   ```
+   docker login
+   ```
+4. Clone, fork, or download the zip file for this repository:
    ```
    git clone https://github.com/Azure/MLAKSDeployment.git
    ```
-4. Create the Python MLAKSDeployment virtual environment using the environment.yml:
+5. Create the Python MLAKSDeployment virtual environment using the environment.yml:
    ```
    conda env create -f environment.yml
    ```
-5. Activate the virtual environment:
+6. Activate the virtual environment:
    ```
    source activate MLAKSDeployment
    ```
-6. Start the Jupyter notebook server in the virtual environment:
+7. Login to Azure:
+   ```
+   az login
+   ```
+8. If you have more than one Azure subscription, select it:
+   ```
+   az account set --subscription <Your Azure Subscription>
+   ```
+9. Start the Jupyter notebook server in the virtual environment:
    ```
    jupyter notebook
    ```
