@@ -1,7 +1,7 @@
 # Setup
 
 To set up your environment to run these notebooks, please follow these
-steps.
+steps.  They setup the notebooks to use Docker and Azure seamlessly.
 
 1. Create a _Linux_ DSVM.
 2. In a bash shell on the DSVM, add your login to the `docker` group:
