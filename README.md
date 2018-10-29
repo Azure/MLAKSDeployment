@@ -1,7 +1,30 @@
-# Setup
+### Authors: Fidan Boylu Uz and Mario Bourgoin
 
-To set up your environment to run these notebooks, please follow these
-steps.  They setup the notebooks to use Docker and Azure seamlessly.
+# Deploying Python models on a Kubernetes Cluster for real-time scoring
+
+## Overview
+This scenario shows how to deploy a Frequently Asked Questions (FAQ) matching model as a web service to provide predictions for user questions. For this scenario, “Input Data” in the architecture diagram refers to text strings containing the user questions to match with a list of FAQs. This scenario is designed for the Scikit-Learn machine learning library for Python but can be generalized to any scenario that uses Python models to make real-time predictions.
+This scenario uses a subset of Stack Overflow question data which includes original questions tagged as JavaScript, their duplicate questions, and their answers. It trains a Scikit-Learn pipeline to predict the match probability of a duplicate question with each of the original questions. These predictions are made in real time using a REST API endpoint.
+
+## Design
+![alt text](Design.png "Design")
+This scenario uses a subset of Stack Overflow question data which includes original questions tagged as JavaScript, their duplicate questions, and their answers. It trains a Scikit-Learn pipeline to predict the match probability of a duplicate question with each of the original questions. These predictions are made in real time using a REST API endpoint.
+The application flow for this architecture is as follows:
+1)	The client sends a HTTP POST request with the encoded question data.
+2)	The Flask app extracts the question from the request
+3)	The question is then sent to the Scikit-learn pipeline model for featurization and scoring. 
+4)	The matching FAQ questions with their scores are then piped into a JSON object and returned to the client.
+An example app that consumes the results is included with the scenario.
+
+## Prerequisities
+* Linux(Ubuntu). The tutorial was developed on an Azure Linux DSVM
+* [Docker installed](https://docs.docker.com/v17.12/install/linux/docker-ee/ubuntu/). NOTE: Even with docker installed you may need to set it up so that you don't require sudo to execute docker commands see ["Manage Docker as a non-root user"](https://docs.docker.com/install/linux/linux-postinstall/) 
+* [Dockerhub account](https://hub.docker.com/)
+* Port 9999 open: Jupyter notebook will use port 9999 so please ensure that it is open. For instructions on how to do that on Azure see [here](https://blogs.msdn.microsoft.com/pkirchner/2016/02/02/allow-incoming-web-traffic-to-web-server-in-azure-vm/)
+
+## Setup
+
+To set up your environment to run these notebooks, please follow these steps.  They setup the notebooks to use Docker and Azure seamlessly.
 
 1. Create a _Linux_ DSVM.
 2. In a bash shell on the DSVM, add your login to the `docker` group:
@@ -36,6 +59,12 @@ steps.  They setup the notebooks to use Docker and Azure seamlessly.
    ```
    jupyter notebook
    ```
+
+## Steps
+After following the setup instructions above, run the Jupyter notebooks in order starting with [Data Prep Notebook](https://github.com/Azure/MLAKSDeployment/blob/master/00_Data_Prep.ipynb).
+
+## Cleaning up
+To remove the conda environment created see [here](https://conda.io/docs/commands/env/conda-env-remove.html). The last Jupyter notebook also gives details on deleting Azure resources associated with this repo.
 
 # Contributing
 
