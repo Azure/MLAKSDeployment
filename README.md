@@ -1,3 +1,5 @@
+# This repo is no longer actively maintained. We suggest using [this version](https://github.com/Microsoft/MLAKSDeployAML) which leverages Azure Machine Learning service.
+
 ### Authors: Fidan Boylu Uz and Mario Bourgoin
 
 # Deploying Python models on a Kubernetes Cluster for real-time scoring
